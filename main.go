@@ -1,11 +1,17 @@
 package main
 
 import (
+	"fmt"
 	"log"
+	"os"
 
 	"github.com/gofiber/fiber/v2"
+	"gorm.io/gorm"
+	"gorm.io/driver/mysql"
 )
 
+
+var DB *gorm.DB
 func main() {
 	// Create instance of Fiber
 	app := fiber.New()
@@ -23,4 +29,20 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to start server: %v", err)
 	}
+
+	godotenv.Load()
+	dbhost := os.Getenv(key:"MYSQL_HOST")
+	dbuser := OS.Getenv(key:"MYSQL_USER")
+	dbpassword := os.Getenv(key:"MYSQL_PASSWORD")
+	dbname := os.Getenv(key:"MYSQL_DBNAME")
+
+	connection := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8mb4&parseTime=True&loc=Local")
+	db, err := gorm.Open(mysql.Open(connection), &gorm.Config{})
+
+	if err != nil{
+		panic("db connection failed")
+	}
+
+	DB = db
+	fmt.Println("db connected successfully")
 }
