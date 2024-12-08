@@ -1,17 +1,13 @@
 package main
 
 import (
-	"Salonisaroha/config"
-	"Salonisaroha/routes"
-
-	"github.com/gin-gonic/gin"
+	"Salonisaroha/api"
+	db "Salonisaroha/database"
 )
 
 func main() {
-	config.ConnectDatabase()
+	db := db.NewDBInstance("root:1020547676@tcp(127.0.0.1:3306)", "expense_tracker")
+	db.Connect()
 
-	router := gin.Default()
-	routes.SetupRoutes(router)
-
-	router.Run(":8080")
+	api.StartServer()
 }
